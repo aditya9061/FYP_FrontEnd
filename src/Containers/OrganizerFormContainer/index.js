@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react';
 import Dashboard from '../../Components/Dashboard';
 import OrganizerForm from '../../Components/Forms/organizerForm';
+import { useAuth } from '../../Utils/auth';
 
 export default function OrganizerFormContainer() {
-    return <Dashboard inside={<OrganizerForm />} />;
+    const auth = useAuth();
+    return <Dashboard inside={<OrganizerForm user={auth.user} />}  />;
 }

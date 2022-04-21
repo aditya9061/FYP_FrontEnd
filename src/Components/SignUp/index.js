@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Link,useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../Utils/auth";
 // import Navbar from "../components/Nav";
 // import ImageTitle from "../components/ImageTitle"
 // import FooterMain from "../components/FooterMain";
@@ -42,7 +43,7 @@ function Register(props)
 {
     const classes=useStyles();
     const navigate =useNavigate();
-    const {web3,accounts,contract} =  props;
+    // const {web3,accounts,contract} =  props;
 
     const[registerForm,updateRegisterForm] =  useState({
         publicAddress:"",
@@ -51,12 +52,11 @@ function Register(props)
         email:"",
         password:"",
         passwordConfirm:""
-        
     });
 
     const [errors,updateErrors] = useState(
         {
-        msg:""
+            msg:""
         }
     );
 
@@ -84,7 +84,7 @@ function Register(props)
      function isValid()
         {
         let formIsValid = true;
-        if ( !registerForm.publicAddress || !registerForm.firstName || !registerForm.lastName || !registerForm.email ||
+        if ( !registerForm.firstName || !registerForm.lastName || !registerForm.email ||
              !registerForm.password 
             ) {
 			formIsValid = false;
@@ -99,22 +99,20 @@ function Register(props)
 
    async function handleSubmit() 
     {
-        if(!isValid())
-    {
-        alert("Invalid");
-        console.log(registerForm);
-    }
+        if(!isValid()){
+            alert("Invalid");
+            console.log(registerForm);
+        }
     else{
-        
         console.log(registerForm);
-        axios.post("http://localhost:5000/api/register",registerForm)
+        axios.post(`${BACKEND_URL}signup`,registerForm)
         .then(function(res){
+            navigate("/signin")
             console.log(res.data);
             // if(res.data.token)
             // {
             //     localStorage.setItem("user", res.data.user);
             // }
-
         }
         )
         .catch(function(err)
@@ -125,22 +123,20 @@ function Register(props)
        
 }
 
-function getAddress()
+async function getAddress()
 {
+    // document.getElementById("publicAddress").value=accounts[0].toLowerCase();
 
-console.log(accounts);
-document.getElementById("publicAddress").value=accounts[0].toLowerCase();
-updateRegisterForm(
-    function  (prevState){
-      return (
-          {
-              ...prevState,
-              publicAddress:document.getElementById("publicAddress").value
-          }
-      );
-    }
-
-  );
+    updateRegisterForm(
+        function  (prevState){
+        return (
+            {
+                ...prevState,
+                publicAddress:document.getElementById("publicAddress").value
+            }
+        );
+        }
+    );
 
 }
 
@@ -162,7 +158,7 @@ updateRegisterForm(
         <Grid container spacing={2}>
        
 
-        <Grid item  xs={12} md={6}>
+        {/* <Grid item  xs={12} md={6}>
             <TextField 
                 placeholder="Public Adress"
                 name="publicAddress"
@@ -175,11 +171,11 @@ updateRegisterForm(
                className={classes.fields}
                autoComplete="off"
             />
-        </Grid>
+        </Grid> */}
 
-        <Grid item  xs={12} md={3}>
+        {/* <Grid item  xs={12} md={3}>
         <Button onClick={getAddress} style={{color:"white",backgroundColor:"black"}} fullWidth>Get Address</Button>
-        </Grid>
+        </Grid> */}
 
         <Grid item  xs={12} md={6}>
             <TextField label="First Name"

@@ -65,7 +65,7 @@ return(
         {
           organizer_list_array.map((element,index) => {
           return(
-            <List component="div" disablePadding>
+            <List component="div" disablePadding key={index}>
           <Link to={element.link} style={{textDecoration:"none", color:"black"}}>
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>
@@ -90,7 +90,7 @@ return(
       {
           developer_list_array.map((element,index) => {
           return(
-            <List component="div" disablePadding>
+            <List component="div" disablePadding key={index}>
           <Link to={element.link} style={{textDecoration:"none", color:"black"}}>
           <ListItemButton sx={{ pl: 4 }}>
             <ListItemIcon>

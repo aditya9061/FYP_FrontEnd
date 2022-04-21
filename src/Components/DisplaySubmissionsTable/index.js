@@ -56,13 +56,13 @@ export default function DisplayTable(props) {
 
   return (
     <React.Fragment>
-      <Title>{props.data[0]?props.data[0].wallet_address:"Wallet Address"} Submissions</Title>
+      <Title>Submissions</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
             {props.columnNames?
-             props.columnNames.map((element)=>
-              <TableCell>{element}</TableCell>
+             props.columnNames.map((element, index)=>
+              <TableCell key={index}>{element}</TableCell>
              ) 
             :null}
             {/* <TableCell>Payment Method</TableCell>

@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Title from '../Title';
 import {IconButton, Modal, Box, Typography} from "@mui/material";
 import PublishIcon from '@mui/icons-material/Publish';
+import { useAuth } from '../../Utils/auth';
 
 import CloseIcon from '@material-ui/icons/Close'
 import DeveloperFormModal from '../Forms/developerForm';
@@ -23,12 +24,13 @@ const SubmitDataIcon = (props) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const auth = useAuth();
   return(
       <div>
       <IconButton onClick={handleOpen}>
           <PublishIcon fontSize="medium"/>
       </IconButton>
-      <DeveloperFormModal open={open} handleOpen={handleOpen} handleClose={handleClose} contractAddress={props.contractAddress} userID={"1234"}/>
+      <DeveloperFormModal open={open} handleOpen={handleOpen} handleClose={handleClose} contractAddress={props.contractAddress}/>
       </div>
   )
 }

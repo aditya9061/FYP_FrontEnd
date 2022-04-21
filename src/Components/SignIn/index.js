@@ -12,7 +12,7 @@ from '@mui/material';
 import { Link,useNavigate} from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 // import Navbar from "../components/Nav";
-import { useAuth } from "../../Utils/auth";
+import { BACKEND_URL, useAuth } from "../../Utils/auth";
 // import ImageTitle from "../components/ImageTitle";
 // import FooterMain from "../components/FooterMain";
 
@@ -49,9 +49,8 @@ function Login(props)
     
     
     const [loginForm,updateLoginForm] =useState({
-        pubAddress:"",
-        email:"",
-        password:""
+            email:"",
+            password:""
         });
 
     const [errors,updateErrors]=useState({
@@ -115,40 +114,22 @@ function Login(props)
         }
         else{
             console.log(loginForm);
-            axios.post("http://localhost:5000/api/login",loginForm)
-            .then(res=>{
-
-                console.log(res.data.user);
-                var pubAddress = res.data.user.pubAddress;
-                var nonce = res.data.user.nonce;
-                console.log(pubAddress);
-                return Promise.resolve({pubAddress,nonce});
-
-            
-            }).then((val)=>{
-                console.log(val);
-                 return handleSignMessage(val.pubAddress,val.nonce);
-            }).then((val)=>{
-                console.log(val);
-                var pubAddress=val.publicAddress;
-                var signature= val.signature;
-                return axios.post("http://localhost:5000/api/auth",{pubAddress,signature})
-
-            }).then((res)=>{
+            axios.post(`${BACKEND_URL}login`,loginForm)
+            .then((res)=>{
                 console.log(res);
-                if(res.data.status!=="success")
-                {
-                    alert("Authentication Failed");
-                }
-                else{
-                    // console.log(res.data.user);
+                // if(res.data.status!=="success")
+                // {
+                //     alert("Authentication Failed");
+                // }
+                // else{
+                    console.log(res.data.user);
                     const user =res.data.user;
-                    const token=res.data.token;
-                    localStorage.setItem("token", token);
+                    // const token=res.data.token;
+                    // localStorage.setItem("token", token);
                     localStorage.setItem("user", JSON.stringify(user));
                     // setUser(res.data.user);
-                    navigate("/profile");
-                }
+                    navigate("/organizerContractsDisplayContainer");
+                // }
             })
 
             .catch((err)=>{
@@ -188,7 +169,7 @@ function Login(props)
 
             <Grid container spacing={2}>
 
-            <Grid item xs={12} lg={9}>
+            {/* <Grid item xs={12} lg={9}>
             <TextField 
                 placeholder="Public Adress"
                 name="pubAddress"
@@ -201,12 +182,12 @@ function Login(props)
                className={classes.fields}
                autoComplete="off"
             />
-            </Grid>
+            </Grid> */}
             
             
-            <Grid item xs={12} lg={3}>
+            {/* <Grid item xs={12} lg={3}>
             <Button onClick={getAddress} style={{color:"white",backgroundColor:"black"}} fullWidth>Get Address</Button>
-            </Grid>
+            </Grid> */}
 
             <Grid item xs={12} lg={12}>
             <TextField

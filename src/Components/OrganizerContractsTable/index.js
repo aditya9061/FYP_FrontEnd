@@ -11,7 +11,7 @@ import {IconButton} from "@mui/material";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import axios from 'axios';
-import {BACKEND_URL} from "../../Utils/auth";
+import {BACKEND_URL, useAuth} from "../../Utils/auth";
 
 
 function preventDefault(event) {
@@ -20,10 +20,13 @@ function preventDefault(event) {
 
 const TrainDataIcon = (props) => {
 
+  const auth = useAuth();
+
   function handleModelPull(event){
     event.preventDefault();
     const data = new FormData();
     data.append("contractAddress",props.contractAddress);
+    data.append("userID", auth.user.account_address)
     axios.post(BACKEND_URL+"model_pull",
     data,
     {headers:{
@@ -34,7 +37,7 @@ const TrainDataIcon = (props) => {
     }},
     { responseType: 'blob' }
 ).then(function (response) {
-    console.log(response.data);
+    // console.log(response.data);
     const downloadUrl = window.URL.createObjectURL(new Blob([response.data],{type:"application/octet-stream"}));
     const link = document.createElement('a');
     link.href = downloadUrl;
@@ -73,16 +76,18 @@ export default function OrganizerContractsTable(props) {
     base_accuracy:"30",
     reward:"40"
   }];
+
+  const auth = useAuth();
   
   return (
     <React.Fragment>
-      <Title>{data[0]?data[0].organizer_address:"Organizer Address "} Published Contracts</Title>
+      <Title>{auth.user.firstName + " " + auth.user.lastName} Published Contracts</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
             {props.columnNames?
              props.columnNames.map((element)=>
-              <TableCell>{element}</TableCell>
+              <TableCell key={element}>{element}</TableCell>
              ) 
             :null}
             {/* <TableCell>Payment Method</TableCell>

@@ -7,14 +7,15 @@ import DeveloperForm from "../../Components/Forms/developerForm";
 import { Container,Paper,Grid,IconButton } from "@mui/material";
 import DeveloperSubmissionsDisplayTable from "../../Components/DeveloperSubmissionsDisplayTable";
 import axios from "axios";
-import {BACKEND_URL} from "../../Utils/auth";
+import {BACKEND_URL, useAuth} from "../../Utils/auth";
 
 const DeveloperSubmissionsDisplay = (props) => {
 
   const [tableData,setTableData] = useState([]);
-    
+  const auth = useAuth();
+
   async function getSubmissionsData(user) {
-   await axios.post(BACKEND_URL+"get_developer_submissions",{params:{user_account:user}}).then((response)=>{
+   await axios.post(BACKEND_URL+"get_developer_submissions",{userID:user}).then((response)=>{
       console.log(response.data);
       setTableData(response.data.submission_response)
     }).catch((response) => {
@@ -22,7 +23,7 @@ const DeveloperSubmissionsDisplay = (props) => {
   })
   }
   useEffect(()=>{
-    getSubmissionsData(null);
+    getSubmissionsData(auth.user.account_address);
   },[]);
 
 const trainDataIcon = () => {

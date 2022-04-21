@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import axios from "axios";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import {BACKEND_URL} from "../../Utils/auth";
+import {BACKEND_URL, useAuth} from "../../Utils/auth";
 
 class DeveloperForm extends React.Component {
   constructor(props) {
@@ -26,6 +26,7 @@ class DeveloperForm extends React.Component {
 
     data.append("contractAddress",this.props.contractAddress);
     data.append("train",1);
+    data.append("userID", this.props.userID);
 
     axios.post(BACKEND_URL+"train",data,
     {headers: {
@@ -47,6 +48,7 @@ class DeveloperForm extends React.Component {
    
     data.append("dataFile", this.uploadValidationData.files[0]);
     data.append("contractAddress",this.props.contractAddress);
+    data.append("userID", this.props.userID);
     
     axios.post(BACKEND_URL+"add_data_from_client", 
     data,
@@ -96,6 +98,8 @@ class DeveloperForm extends React.Component {
 
 export default function DeveloperFormModal(props) {
   
+  const auth = useAuth();
+
   const style = {
     position: 'absolute',
     top: '50%',
@@ -121,7 +125,7 @@ export default function DeveloperFormModal(props) {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Data Submission Form
           </Typography>
-          <DeveloperForm contractAddress={props.contractAddress}/>
+          <DeveloperForm contractAddress={props.contractAddress} userID={auth.user.account_address}/>
         </Box>
       </Modal>
     </div>

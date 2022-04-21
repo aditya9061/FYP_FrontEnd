@@ -1,18 +1,19 @@
 import React, {useState, useEffect}  from "react";
 import Dashboard from "../../Components/Dashboard";
-import DisplayTable from "../../Components/DisplaySubmissionsTable";
 import OrganizerContractsTable from "../../Components/OrganizerContractsTable";
 import { Container, Grid, Paper, IconButton } from "@mui/material";
 import axios from "axios";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {BACKEND_URL} from "../../Utils/auth";
+import { useAuth } from "../../Utils/auth";
+
 const ContractDisplay = (props) => {
 
   const [contractsData,setcontractsData] = useState([]);
+  const auth = useAuth();
   
   async function getContractsData() {
     await axios
-      .get(BACKEND_URL+"get_contract_data")
+      .get(BACKEND_URL+"get_organizer_contract_data", {params: {userID: auth.user.account_address}})
       .then((response) => {
         console.log(response.data);
         setcontractsData(response.data.contract_data);

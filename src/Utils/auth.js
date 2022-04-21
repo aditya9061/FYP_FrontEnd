@@ -1,10 +1,11 @@
 import {useState,useContext,createContext} from "react";
 
 const AuthContext = createContext();
-export const BACKEND_URL="http://91fd-2402-3a80-164e-77eb-344f-2518-e966-5f4d.ngrok.io/";
+export const BACKEND_URL="http://885c-1-38-138-160.ngrok.io/";
 export const AuthProvider = ({children})=>{
 
-const [user,setUser] = useState(JSON.parse(localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):null));
+const [user,setUser] = useState(JSON.parse(localStorage.getItem("user")));
+console.log(user);
 
 return (
     <AuthContext.Provider value={{user,setUser}}>

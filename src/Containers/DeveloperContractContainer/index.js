@@ -6,6 +6,7 @@ import PublishIcon from '@mui/icons-material/Publish';
 import ModelTrainingIcon from '@mui/icons-material/ModelTraining';
 import DeveloperForm from "../../Components/Forms/developerForm";
 import { Container,Paper,Grid } from "@mui/material";
+
 const DeveloperContractDisplay = (props) => {
 
 

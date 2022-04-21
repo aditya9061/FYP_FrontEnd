@@ -3,7 +3,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import axios from "axios";
-import {BACKEND_URL} from "../../Utils/auth";
+import {BACKEND_URL, useAuth} from "../../Utils/auth";
+
 class OrganizerForm extends React.Component {
   constructor(props) {
     super(props);
@@ -11,34 +12,35 @@ class OrganizerForm extends React.Component {
       imageURL: "",
     };
     this.handleUploadImage = this.handleUploadImage.bind(this);
-    this.handleModelPull = this.handleModelPull.bind(this)
+    // this.handleModelPull = this.handleModelPull.bind(this)
+    // console.log("here too", this.props);
   }
 
-  handleModelPull(event){
-    event.preventDefault();
-    const data = new FormData();
-    data.append("contractAddress","0x6910484b214Effa7Ea92F92c958FE365F57b8fd4");
-    axios.post(BACKEND_URL+"model_pull",
-    data,
-    {headers:{
-      "Content-Type": "multipart/form-data",
-      "Access-Control-Allow-Origin":"*",
-      'Access-Control-Allow-Methods': '*',
-      'Access-Control-Allow-Headers': '*'
-    }},
-    { responseType: 'blob' }
-).then(function (response) {
-    console.log(response.data);
-    const downloadUrl = window.URL.createObjectURL(new Blob([response.data],{type:"application/octet-stream"}));
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.setAttribute('download', 'file.h5'); //any other extension
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    }
-);
-  }
+//   handleModelPull(event){
+//     event.preventDefault();
+//     const data = new FormData();
+//     data.append("contractAddress","0x6910484b214Effa7Ea92F92c958FE365F57b8fd4");
+//     axios.post(BACKEND_URL+"model_pull",
+//     data,
+//     {headers:{
+//       "Content-Type": "multipart/form-data",
+//       "Access-Control-Allow-Origin":"*",
+//       'Access-Control-Allow-Methods': '*',
+//       'Access-Control-Allow-Headers': '*'
+//     }},
+//     { responseType: 'blob' }
+// ).then(function (response) {
+//     console.log(response.data);
+//     const downloadUrl = window.URL.createObjectURL(new Blob([response.data],{type:"application/octet-stream"}));
+//     const link = document.createElement('a');
+//     link.href = downloadUrl;
+//     link.setAttribute('download', 'file.h5'); //any other extension
+//     document.body.appendChild(link);
+//     link.click();
+//     link.remove();
+//     }
+// );
+//   }
 
   handleUploadImage(ev) {
     ev.preventDefault();
@@ -50,7 +52,7 @@ class OrganizerForm extends React.Component {
     data.append("modelDescription", this.uploadModelDescription.value);
     data.append("contractName", this.uploadModelName.value);
     data.append("reward", this.uploadReward.value);
-    data.append("organizerID", "1234user")
+    data.append("organizerID", this.props.user.account_address)
     
     
     axios.post(BACKEND_URL+"submit_contract", 
@@ -151,9 +153,9 @@ class OrganizerForm extends React.Component {
         <div>
           <button>Upload</button>
         </div>
-        <div>
+        {/* <div>
           <button onClick={this.handleModelPull}>Model Pull</button>
-        </div>
+        </div> */}
       </form>
       </CardContent>
       </Card>

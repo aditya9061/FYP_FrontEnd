@@ -1,30 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Chart from '../../Components/Chart';
-import Deposits from '../../Components/Deposits';
-import Orders from '../../Components/DisplaySubmissionsTable';
-import { TableCell, TableRow } from '@mui/material';
 import Dashboard from '../../Components/Dashboard';
 import axios from 'axios';
 import DisplayTable from '../../Components/DisplaySubmissionsTable';
-import {BACKEND_URL} from "../../Utils/auth";
+import {BACKEND_URL, useAuth} from "../../Utils/auth";
 
 function Copyright(props) {
     return (
@@ -48,9 +32,11 @@ function HomeContainer(props) {
 
     const [chartData,setChartData] = useState(null);
     const [tableData,setTableData] = useState([]);
+
+    const auth = useAuth();
     
     async function getAccuracyChartData(contractAddress) {
-     await axios.post(BACKEND_URL+"get_accuracies_and_submissions",{params:{contract_address:contractAddress}}).then((response)=>{
+     await axios.post(BACKEND_URL+"get_accuracies_and_submissions",{params:{contract_address:contractAddress, userID: auth.user.account_address}}).then((response)=>{
         console.log(response.data);
         setChartData(response.data.accuracy_response);
         setTableData(response.data.submission_response)

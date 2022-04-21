@@ -9,7 +9,7 @@ import reportWebVitals from './reportWebVitals';
 import OrganizerForm from './Components/Forms/organizerForm';
 import DeveloperForm from './Components/Forms/developerForm';
 import OrganizerFormContainer from './Containers/OrganizerFormContainer';
-import {AuthProvider, BACKEND_URL} from './Utils/auth.js';
+import {AuthProvider, BACKEND_URL, useAuth} from './Utils/auth.js';
 import ContractDisplayContainer from './Containers/ContractDisplayContainer';
 import HomeContainer1 from './Containers/HomeContainer';
 import DeveloperContractDisplayContainer from './Containers/DeveloperContractContainer';
@@ -23,9 +23,11 @@ function App() {
     firstName:"",
     lastName:""
   });
+
+
   
   const [contractsData,setcontractsData] = useState([]);
-  
+
   async function getContractsData() {
     await axios
       .get(BACKEND_URL+"/get_contract_data")
