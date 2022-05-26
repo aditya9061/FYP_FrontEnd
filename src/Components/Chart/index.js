@@ -55,7 +55,7 @@ export default function Chart(props) {
                 ...theme.typography.body1,
               }}
             >
-              Number of Submissions
+              Submission
             </Label>
           </XAxis>
           <YAxis

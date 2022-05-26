@@ -11,6 +11,8 @@ Button,
 from '@mui/material';
 import { Link,useNavigate} from "react-router-dom";
 import { makeStyles } from "@mui/styles";
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 // import Navbar from "../components/Nav";
 import { BACKEND_URL, useAuth } from "../../Utils/auth";
 // import ImageTitle from "../components/ImageTitle";
@@ -116,22 +118,13 @@ function Login(props)
             console.log(loginForm);
             axios.post(`${BACKEND_URL}login`,loginForm)
             .then((res)=>{
-                console.log(res);
-                // if(res.data.status!=="success")
-                // {
-                //     alert("Authentication Failed");
-                // }
-                // else{
-                    console.log(res.data.user);
-                    const user =res.data.user;
-                    // const token=res.data.token;
-                    // localStorage.setItem("token", token);
-                    localStorage.setItem("user", JSON.stringify(user));
-                    // setUser(res.data.user);
-                    navigate("/organizerContractsDisplayContainer");
-                // }
-            })
 
+                    console.log(res.data.user);
+                    localStorage.setItem("user", JSON.stringify(res.data.user));
+                    console.log("SignIn LocalStorage:",localStorage);
+                    navigate("/organizerContractsDisplayContainer");      
+            
+            })
             .catch((err)=>{
                 console.log(err);
             });
@@ -160,7 +153,14 @@ function Login(props)
     return(
     <div>
         {/* <Navbar/> */}
-        <div >
+        <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Federated Learning Over Blockchain
+          </Typography>
+        </Toolbar>
+      </AppBar>
+        <div style={{"marginTop":"160px"}}>
         <Paper elevation={5} className={classes.loginPaper} >
 
         {/* <ImageTitle title="LOGIN"/> */}
@@ -223,11 +223,11 @@ function Login(props)
 
                   
             </Grid>
-            <Link to="/register"><Typography>New User ? Register</Typography></Link>
+            <Link to="/signup"><Typography>New User ? Register</Typography></Link>
             <Grid container>
                 <Grid item xs={0} md={9}> </Grid>
                 <Grid item xs={12} md={3}>  
-                    <Button onClick={handleSubmit} variant="outlined"  style={{backgroundColor:"black",color:"white",width:"100%"}}>Login</Button>
+                    <Button onClick={handleSubmit} variant="outlined"  style={{backgroundColor:"#2196f3",color:"white",width:"100%"}}>Login</Button>
                 </Grid>
             </Grid>
 

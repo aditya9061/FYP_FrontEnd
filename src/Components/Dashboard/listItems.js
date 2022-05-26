@@ -10,14 +10,14 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
 import PeopleIcon from '@mui/icons-material/People';
 import CodeIcon from '@mui/icons-material/Code';
-import OrganizerForm from '../Forms/organizerForm';
+import OrganizerForm from '../Forms/organizerDSForm';
 import { Link } from 'react-router-dom';
 
 
 function MainListItems(){
 
-const [orgOpen, setOrgOpen] = useState(true);
-const [devOpen, setDevOpen] = useState(true);
+const [orgOpen, setOrgOpen] = useState(false);
+const [devOpen, setDevOpen] = useState(false);
 
 const handleOrgClick = () => {
   setOrgOpen(!orgOpen);
@@ -37,6 +37,11 @@ const organizer_list_array = [
     link:"/organizerFormContainer",
     icon:<StarBorder />
 },
+// {
+//   text:"ML Contract Form",
+//     link:"/organizerFormContainer",
+//     icon:<StarBorder />
+// },
 ];
 
 const developer_list_array = [

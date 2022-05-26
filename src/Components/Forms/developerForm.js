@@ -6,15 +6,13 @@ import axios from "axios";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import {BACKEND_URL, useAuth} from "../../Utils/auth";
+import LinearProgress from '@mui/material/LinearProgress';
 
 class DeveloperForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageURL: "",
-      data_sent:0,
-      train:0,
-      response:null
+      upload:false
     };
     this.handleUploadImage = this.handleUploadImage.bind(this);
     this.handleTrain = this.handleTrain.bind(this);
@@ -27,7 +25,7 @@ class DeveloperForm extends React.Component {
     data.append("contractAddress",this.props.contractAddress);
     data.append("train",1);
     data.append("userID", this.props.userID);
-
+    this.setState({upload:true});
     axios.post(BACKEND_URL+"train",data,
     {headers: {
       "Content-Type": "multipart/form-data",
@@ -39,7 +37,8 @@ class DeveloperForm extends React.Component {
     })
     .catch(function (error) {
       console.log(error);
-    });
+    })
+    .then(()=>this.setState({upload:false}));
   }
   handleUploadImage(ev) {
     ev.preventDefault();
@@ -49,7 +48,8 @@ class DeveloperForm extends React.Component {
     data.append("dataFile", this.uploadValidationData.files[0]);
     data.append("contractAddress",this.props.contractAddress);
     data.append("userID", this.props.userID);
-    
+
+    this.setState({upload:true});
     axios.post(BACKEND_URL+"add_data_from_client", 
     data,
     {headers: {
@@ -64,12 +64,21 @@ class DeveloperForm extends React.Component {
     })
     .catch(function (error) {
       console.log(error);
-    });
+    })
+    .then(()=>
+      this.setState({upload:false})
+    );
   }
 
   render() {
     return (
-      
+      <div>
+       <Box sx={{ width: '40%', margin:'0 auto'}}>
+      { this.state.upload?
+      <LinearProgress />:
+      null
+      }
+    </Box>
       <Card variant="outlined">
       <CardContent>
       <form onSubmit={this.handleUploadImage}>
@@ -92,6 +101,7 @@ class DeveloperForm extends React.Component {
       </form>
       </CardContent>
       </Card>
+      </div>
     );
   }
 }
