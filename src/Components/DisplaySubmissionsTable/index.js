@@ -73,7 +73,7 @@ export default function DisplayTable(props) {
           {props.data.map((row) => (
             <TableRow key={`${row.wallet_address}${row.contract_address}`}>
               <TableCell>{row.wallet_address}</TableCell>
-              <TableCell>{row.contract_address}</TableCell>
+              {/* <TableCell>{row.contract_address}</TableCell> */}
               <TableCell>{row.base_accuracy}</TableCell>
               <TableCell>{row.accuracy}</TableCell>
               <TableCell>{row.reward_earned}</TableCell>

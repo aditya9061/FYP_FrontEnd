@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Tooltip, CartesianGrid } from 'recharts';
 import Title from '../Title';
 import axios from 'axios';
 
@@ -28,7 +28,7 @@ export default function Chart(props) {
 
   return (
     <React.Fragment>
-      <Title>Today</Title>
+      <Title>{props.contractAddress}</Title>
       <ResponsiveContainer >
         <LineChart
           data={props.data? props.data :data}
@@ -44,6 +44,7 @@ export default function Chart(props) {
           dataKey="x"
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
+        
            
           >
            <Label
@@ -55,12 +56,13 @@ export default function Chart(props) {
                 ...theme.typography.body1,
               }}
             >
-              Submission
+              Submission 
             </Label>
           </XAxis>
           <YAxis
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
+            scale="linear"
           >
             <Label
               angle={270}
@@ -81,6 +83,8 @@ export default function Chart(props) {
             stroke={theme.palette.primary.main}
             dot={false}
           />
+          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+          <Tooltip />
         </LineChart>
       </ResponsiveContainer>
     </React.Fragment>

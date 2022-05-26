@@ -98,7 +98,7 @@ function HomeContainer(props) {
            
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <DisplayTable columnNames={["Wallet Address","Contract Address","Base Accuracy","Current Accuracy","Reward"]} data={tableData}/>
+                  <DisplayTable columnNames={["Developer Address","Base Accuracy","Submission Accuracy","Reward"]} data={tableData}/>
                 </Paper>
               </Grid>
             </Grid>

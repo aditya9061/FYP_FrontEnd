@@ -19,6 +19,7 @@ const auth = useAuth();
 const columnNames = [
     "Contract ID",
     "Organizer ID",
+    "Name",
     "Accuracy",
     "Reward",
     "Submit Data"

@@ -1,4 +1,4 @@
-import  React from 'react';
+import  React,{useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import Link from '@mui/material/Link';
 import Table from '@mui/material/Table';
@@ -12,6 +12,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import axios from 'axios';
 import {BACKEND_URL, useAuth} from "../../Utils/auth";
+import LinearProgress from '@mui/material/LinearProgress';
 
 
 function preventDefault(event) {
@@ -21,9 +22,10 @@ function preventDefault(event) {
 const TrainDataIcon = (props) => {
 
   const auth = useAuth();
-
+  
   function handleModelPull(event){
     event.preventDefault();
+    props.setDownload(true);
     const data = new FormData();
     data.append("contractAddress",props.contractAddress);
     data.append("userID", auth.user.account_address);
@@ -46,7 +48,11 @@ const TrainDataIcon = (props) => {
     link.click();
     link.remove();
     }
-);
+)
+.catch((err)=>{
+  console.log(err);
+})
+.then(()=>props.setDownload(false));
   }
 
   return(
@@ -76,11 +82,13 @@ export default function OrganizerContractsTable(props) {
     base_accuracy:"30",
     reward:"40"
   }];
-
+ 
   const auth = useAuth();
+  const [download,setDownload] = useState(false);
   
   return (
     <React.Fragment>
+      {download?<LinearProgress/>:null}
       <Title>{auth.user?auth.user.firstName + " " + auth.user.lastName:null} Published Contracts</Title>
       <Table size="small">
         <TableHead>
@@ -98,11 +106,12 @@ export default function OrganizerContractsTable(props) {
           {data.map((contract,index) => (
             <TableRow key={contract.contract_address}>
               <TableCell>{contract.contract_address}</TableCell>
+              <TableCell>{contract.contract_name}</TableCell>
               <TableCell>{contract.model_description}</TableCell>
               <TableCell>{contract.base_accuracy}</TableCell>
               <TableCell>{contract.reward}eth</TableCell>
               <TableCell><OpenInNewTabIcon index={index} contractAddress={contract.contract_address}/></TableCell>
-              <TableCell><TrainDataIcon contractAddress={contract.contract_address}/></TableCell>
+              <TableCell><TrainDataIcon contractAddress={contract.contract_address}  download={download} setDownload={setDownload}/></TableCell>
             </TableRow>
           ))}
         </TableBody>

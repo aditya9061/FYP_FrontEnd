@@ -29,6 +29,7 @@ useEffect(()=>getContractsData(),[]);
 
 const columnNames = [
     "Contract ID",
+    "Name",
     "Model/Data Description",
     "Base Accuracy",
     "Reward",
