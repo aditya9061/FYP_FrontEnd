@@ -52,7 +52,7 @@ class OrganizerForm extends React.Component {
     data.append("modelDescription", this.uploadModelDescription.value);
     data.append("contractName", this.uploadModelName.value);
     data.append("reward", this.uploadReward.value);
-    data.append("organizerID", this.props.user.account_address)
+    data.append("userID", this.props.user.account_address)
     
     
     axios.post(BACKEND_URL+"submit_contract", 

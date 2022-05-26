@@ -26,7 +26,7 @@ const TrainDataIcon = (props) => {
     event.preventDefault();
     const data = new FormData();
     data.append("contractAddress",props.contractAddress);
-    data.append("userID", auth.user.account_address)
+    data.append("userID", auth.user.account_address);
     axios.post(BACKEND_URL+"model_pull",
     data,
     {headers:{
@@ -81,7 +81,7 @@ export default function OrganizerContractsTable(props) {
   
   return (
     <React.Fragment>
-      <Title>{auth.user.firstName + " " + auth.user.lastName} Published Contracts</Title>
+      <Title>{auth.user?auth.user.firstName + " " + auth.user.lastName:null} Published Contracts</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -98,9 +98,9 @@ export default function OrganizerContractsTable(props) {
           {data.map((contract,index) => (
             <TableRow key={contract.contract_address}>
               <TableCell>{contract.contract_address}</TableCell>
-              <TableCell>{contract.organizer_address}</TableCell>
+              <TableCell>{contract.model_description}</TableCell>
               <TableCell>{contract.base_accuracy}</TableCell>
-              <TableCell>{contract.reward}</TableCell>
+              <TableCell>{contract.reward}eth</TableCell>
               <TableCell><OpenInNewTabIcon index={index} contractAddress={contract.contract_address}/></TableCell>
               <TableCell><TrainDataIcon contractAddress={contract.contract_address}/></TableCell>
             </TableRow>

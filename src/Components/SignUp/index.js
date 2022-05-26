@@ -11,6 +11,8 @@ import {
 import { makeStyles } from "@mui/styles";
 import { Link,useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../Utils/auth";
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 // import Navbar from "../components/Nav";
 // import ImageTitle from "../components/ImageTitle"
 // import FooterMain from "../components/FooterMain";
@@ -107,7 +109,7 @@ function Register(props)
         console.log(registerForm);
         axios.post(`${BACKEND_URL}signup`,registerForm)
         .then(function(res){
-            navigate("/signin")
+            navigate("/")
             console.log(res.data);
             // if(res.data.token)
             // {
@@ -145,6 +147,14 @@ async function getAddress()
     return(
         
         <div>
+        <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Federated Learning Over Blockchain
+          </Typography>
+        </Toolbar>
+      </AppBar>
+        <div style={{"marginTop":"140px"}}>
         {/* <Navbar isLogin={true} /> */}
         <Paper className={classes.formPaper}>
         
@@ -259,14 +269,15 @@ async function getAddress()
     <Divider style={{marginBottom:"2%"}}/>
         
     <Grid container>
-        <Grid item xs={12} md={10}><Link to="/signin"><Typography>Already User ? Login Here</Typography></Link></Grid>
-        <Grid item xs={12} md={2}><Button onClick={handleSubmit} style={{color:"white",backgroundColor:"black"}} fullWidth>Submit</Button></Grid>
+        <Grid item xs={12} md={10}><Link to="/"><Typography>Already User ? Login Here</Typography></Link></Grid>
+        <Grid item xs={12} md={2}><Button onClick={handleSubmit} style={{color:"white",backgroundColor:"#2196f3"}} fullWidth>Submit</Button></Grid>
     </Grid>
         
     </form>
     </Paper>
         
     {/* <FooterMain/> */}
+</div>
 </div>
     );
    }

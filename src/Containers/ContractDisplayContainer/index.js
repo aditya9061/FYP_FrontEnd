@@ -13,9 +13,9 @@ const ContractDisplay = (props) => {
   
   async function getContractsData() {
     await axios
-      .get(BACKEND_URL+"get_organizer_contract_data", {params: {userID: auth.user.account_address}})
+      .get(BACKEND_URL+"get_organizer_contract_data", {params: {userID: auth.user?auth.user.account_address:null}})
       .then((response) => {
-        console.log(response.data);
+        console.log("from organizer contract container:",response.data);
         setcontractsData(response.data.contract_data);
       })
       .catch((err) => {
@@ -29,7 +29,7 @@ useEffect(()=>getContractsData(),[]);
 
 const columnNames = [
     "Contract ID",
-    "Organizer ID",
+    "Model/Data Description",
     "Base Accuracy",
     "Reward",
     "Open Contract",

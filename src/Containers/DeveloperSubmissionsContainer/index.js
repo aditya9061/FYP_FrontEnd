@@ -23,7 +23,7 @@ const DeveloperSubmissionsDisplay = (props) => {
   })
   }
   useEffect(()=>{
-    getSubmissionsData(auth.user.account_address);
+    getSubmissionsData(auth.user?auth.user.account_address:null);
   },[]);
 
 const trainDataIcon = () => {

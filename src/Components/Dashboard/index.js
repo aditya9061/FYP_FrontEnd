@@ -18,8 +18,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MainListItems from './listItems';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import Chart from '../Chart';
 import HomeContainer from '../../Containers/HomeContainer';
+import { useNavigate} from "react-router-dom";
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import Tooltip from '@mui/material/Tooltip';
+import {useAuth,BACKEND_URL} from '../../Utils/auth';
+import axios from "axios";
+
 
 function Copyright(props) {
   return (
@@ -54,38 +62,86 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
+const openedMixin = (theme) => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
+
+const closedMixin = (theme) => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+});
+
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
-    '& .MuiDrawer-paper': {
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      boxSizing: 'border-box',
-      ...(!open && {
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9),
-        },
-      }),
-    },
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
+    }),
   }),
 );
 
 const mdTheme = createTheme();
 
 function DashboardContent(props) {
-  const [open, setOpen] = React.useState(true);
+
+  const [balance, setBalance] = React.useState()
+  const auth = useAuth();
+  async function getBalance() {
+    await axios
+      .get(BACKEND_URL+"get_balance", {params: {userID: auth.user?auth.user.account_address:null}})
+      .then((response) => {
+        console.log("balance:",response.data.balance);
+        setBalance(response.data.balance);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      
+    }
+  React.useEffect(()=>{
+    getBalance();
+  },[]);
+
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const signOut = () => {
+    localStorage.clear();
+    console.log(localStorage);
+    navigate("/");
   };
 
   return (
@@ -119,11 +175,46 @@ function DashboardContent(props) {
             >
               Portal
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <Typography
+              component="h6"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1,marginLeft:"70%" }}
+          
+            >
+              Balance: {balance} eth
+            </Typography>
+            <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={()=>navigate("/profile")}>Profile</MenuItem>
+                <MenuItem onClick={signOut}>Logout</MenuItem>
+              </Menu>
+            </div>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -135,12 +226,23 @@ function DashboardContent(props) {
               px: [1],
             }}
           >
-            <IconButton onClick={toggleDrawer}>
+          <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
           </Toolbar>
           <Divider />
-          <List><MainListItems/></List>
+          <List 
+          sx={{ width: '120%', maxWidth: 360, bgcolor: 'background.paper' }}
+      component="nav"
+      aria-labelledby="nested-list-subheader"
+      // subheader={
+      //   <ListSubheader component="div" id="nested-list-subheader">
+      //     Nested List Items
+      //   </ListSubheader>
+      // }
+          >
+            <MainListItems/>
+          </List>
           <Divider />
         </Drawer>
         <Box
