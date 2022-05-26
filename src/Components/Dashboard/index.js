@@ -13,13 +13,14 @@ import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MainListItems from './listItems';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import Chart from '../Chart';
 import HomeContainer from '../../Containers/HomeContainer';
+import { Link } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -34,7 +35,7 @@ function Copyright(props) {
   );
 }
 
-const drawerWidth = 240;
+const drawerWidth = 275;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -123,6 +124,10 @@ function DashboardContent(props) {
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
+            </IconButton>
+            
+            <IconButton>
+            <Link to="/profile"><AccountBoxIcon /></Link>
             </IconButton>
           </Toolbar>
         </AppBar>

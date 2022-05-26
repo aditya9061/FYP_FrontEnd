@@ -67,7 +67,7 @@ return(
           return(
             <List component="div" disablePadding key={index}>
           <Link to={element.link} style={{textDecoration:"none", color:"black"}}>
-          <ListItemButton sx={{ pl: 4 }}>
+          <ListItemButton sx={{ pl: 4}}>
             <ListItemIcon>
               {element.icon}
             </ListItemIcon>
@@ -92,7 +92,7 @@ return(
           return(
             <List component="div" disablePadding key={index}>
           <Link to={element.link} style={{textDecoration:"none", color:"black"}}>
-          <ListItemButton sx={{ pl: 4 }}>
+          <ListItemButton sx={{ pl: 4}}>
             <ListItemIcon>
               {element.icon}
             </ListItemIcon>
