@@ -46,8 +46,7 @@ function Login(props)
 
     const classes=useStyles();
     const navigate = useNavigate();
-    const {web3,accounts,contract}=props
-   
+    const {web3,accounts,contract}=props;
     
     
     const [loginForm,updateLoginForm] =useState({
@@ -119,15 +118,14 @@ function Login(props)
             axios.post(`${BACKEND_URL}login`,loginForm)
             .then((res)=>{
                     console.log(res.data.user);
+                    setUser(res.data.user);
                     localStorage.setItem("user", JSON.stringify(res.data.user));
                     console.log("SignIn LocalStorage:",localStorage);
-                    // navigate("/organizerContractsDisplayContainer");      
+                    navigate("/organizerContractsDisplayContainer");      
             })
             .catch((err)=>{
                 console.log(err);
-            }).then(res => {
-                navigate("/organizerContractsDisplayContainer");
-            });
+            })
         }
     }
 
