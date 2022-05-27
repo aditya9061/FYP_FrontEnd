@@ -109,7 +109,7 @@ export default function OrganizerContractsTable(props) {
               <TableCell>{contract.contract_name}</TableCell>
               <TableCell>{contract.model_description}</TableCell>
               <TableCell>{contract.base_accuracy}</TableCell>
-              <TableCell>{contract.reward}eth</TableCell>
+              <TableCell>{contract.reward} eth</TableCell>
               <TableCell><OpenInNewTabIcon index={index} contractAddress={contract.contract_address}/></TableCell>
               <TableCell><TrainDataIcon contractAddress={contract.contract_address}  download={download} setDownload={setDownload}/></TableCell>
             </TableRow>

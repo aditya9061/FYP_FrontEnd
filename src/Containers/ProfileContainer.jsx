@@ -1,5 +1,6 @@
 import React, {useEffect, useState}  from "react";
 import Dashboard from "../Components/Dashboard";
+import Profile from "../Components/ProfilePage"
 // import DisplayTable from "../../Components/DisplaySubmissionsTable";
 // import PublishIcon from '@mui/icons-material/Publish';
 // import ModelTrainingIcon from '@mui/icons-material/ModelTraining';
@@ -13,8 +14,8 @@ export default function ProfileContainer () {
     return <Dashboard inside={<Profile/>} />
 }
 
-function Profile () {
-    return (
-        <h1>this is profile</h1>
-    )
-}
+// function Profile () {
+//     return (
+//         <h1>this is profile</h1>
+//     )
+// }

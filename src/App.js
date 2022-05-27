@@ -58,7 +58,7 @@ function App() {
       <Route path="/organizerFormContainer" element={<OrganizerFormContainer/>}/>
       <Route path="/developerContractsDisplayContainer" element={<DeveloperContractDisplayContainer contractsData={contractsData} />}/>
       <Route path="/developerSubmissionsDisplayContainer" element={<DeveloperSubmissionDisplayContainer/>}/>
-      <Route path="/profile" element={<Profile/>}/>
+      <Route path="/profile" element={<ProfileContainer/>}/>
       {contractsData.map((contract,index)=>{
         const path = "/"+contract.contract_address;
         return (<Route key={contract.contract_address} exact={true} path={path} element={<HomeContainer1 contract={contract} />} />);

@@ -118,15 +118,15 @@ function Login(props)
             console.log(loginForm);
             axios.post(`${BACKEND_URL}login`,loginForm)
             .then((res)=>{
-
                     console.log(res.data.user);
                     localStorage.setItem("user", JSON.stringify(res.data.user));
                     console.log("SignIn LocalStorage:",localStorage);
-                    navigate("/organizerContractsDisplayContainer");      
-            
+                    // navigate("/organizerContractsDisplayContainer");      
             })
             .catch((err)=>{
                 console.log(err);
+            }).then(res => {
+                navigate("/organizerContractsDisplayContainer");
             });
         }
     }

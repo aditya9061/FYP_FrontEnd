@@ -66,7 +66,7 @@ export default function DeveloperContractsDisplayTable(props) {
               <TableCell>{row.organizer_address}</TableCell>
               <TableCell>{row.contract_name}</TableCell>
               <TableCell>{row.base_accuracy}</TableCell>
-              <TableCell>{row.reward}</TableCell>
+              <TableCell>{row.reward} eth</TableCell>
               <TableCell><SubmitDataIcon contractAddress={row.contract_address}/></TableCell>
             </TableRow>
           ))}
